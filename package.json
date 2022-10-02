@@ -1,0 +1,26 @@
+{
+  "name": "sp-downloader",
+  "version": "0.0.0",
+  "description": "A simple command-line tool that can download tracks and playlists from spotify",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Juojo/sp-downloader.git"
+  },
+  "keywords": [
+    "sp-download",
+    "sp downloader",
+    "download songs",
+    "spotify",
+    "spotify-downloader"
+  ],
+  "author": "Juojo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Juojo/sp-downloader/issues"
+  },
+  "homepage": "https://github.com/Juojo/sp-downloader#readme"
+}
