@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "sp": "bin/sp.js",
+    "test": "bin/test.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Juojo/sp-downloader.git"
@@ -22,5 +26,10 @@
   "bugs": {
     "url": "https://github.com/Juojo/sp-downloader/issues"
   },
-  "homepage": "https://github.com/Juojo/sp-downloader#readme"
+  "homepage": "https://github.com/Juojo/sp-downloader#readme",
+  "dependencies": {
+    "isomorphic-unfetch": "^3.1.0",
+    "spotify-url-info": "^3.1.9",
+    "yargs": "^17.6.0"
+  }
 }
