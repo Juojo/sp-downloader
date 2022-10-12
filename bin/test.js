@@ -18,6 +18,9 @@ function showNames(data) {
     }
 }
 
+// ! Importante: getDetails no puede leer playlists, solo tracks => se podria chequear primero el tipo y despues ver a que se llama (get)
+
+// SOLO PARA getDetails.
 
 // Fecha de subida => data.preview.date
 // albumCover => data.preview.image
