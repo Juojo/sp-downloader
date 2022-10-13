@@ -1,6 +1,12 @@
 <div align="left">
-  <img alt="npm" src="https://img.shields.io/npm/v/sp-downloader?color=3388ff&style=plastic">
-  <img alt="GitHub issues" src="https://img.shields.io/github/issues/juojo/sp-downloader?style=plastic">
+  <a href="https://www.npmjs.com/package/sp-downloader" target="_blank" rel="noopener noreferrer">
+    <img alt="npm" src="https://img.shields.io/npm/v/sp-downloader?color=3388ff&style=plastic">
+  </a>
+  
+  <a href="https://github.com/Juojo/sp-downloader/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/juojo/sp-downloader?style=plastic">
+  </a>
+  
   <img src="https://img.shields.io/badge/status-in_development-critical?style=plastic"> 
 </div>
 
