@@ -1,4 +1,4 @@
-<div align="center">
+<div align="left">
   <img alt="npm" src="https://img.shields.io/npm/v/sp-downloader?color=3388ff&style=plastic">
   <img alt="GitHub issues" src="https://img.shields.io/github/issues/juojo/sp-downloader?style=plastic">
   <img src="https://img.shields.io/badge/status-in_development-critical?style=plastic"> 
