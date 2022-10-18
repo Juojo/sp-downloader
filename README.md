@@ -17,7 +17,7 @@ Spotify downloader (*sp-downloader*) is a simple command-line tool that can down
 
 Open your terminal and go to the directory where you want the song to be downloaded. Then run the command replacing `"<link>"` with the actual track/playlist link:
 ```
-$ sp <link>
+sp <link>
 ```
 **Example:**
 ```
