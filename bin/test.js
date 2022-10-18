@@ -3,13 +3,12 @@
 const fetch = require('isomorphic-unfetch');
 const { getData, getPreview, getTracks, getDetails } = require('spotify-url-info')(fetch);
 
-//let input = 'https://open.spotify.com/artist/2qWK8K2Jfh67UqtwY8tCW6?si=7691551a752f477d'
-//let input = 'https://open.spotify.com/track/2hRlHXzOf14ArYmOPeAXsa?si=d8dc9afda648413a'
-//let input = 'https://open.spotify.com/playlist/0bDw47MqOW1xKZ8Mdck10Y?si=6149c9a279c64b68'
+//let input = 'https://open.spotify.com/artist/2qWK8K2Jfh67UqtwY8tCW6?si=7691551a752f477d' // artista
+//let input = 'https://open.spotify.com/track/2hRlHXzOf14ArYmOPeAXsa?si=d8dc9afda648413a' // cancion
+//let input = 'https://open.spotify.com/playlist/0bDw47MqOW1xKZ8Mdck10Y?si=6149c9a279c64b68' // playlist con 2 canciones
 
-let input = 'https://open.spotify.com/playlist/3qxSuTNp8RQ3QAnsQkMan4?si=e626a1b7b9d54dc4'
+let input = 'https://open.spotify.com/playlist/3qxSuTNp8RQ3QAnsQkMan4?si=e626a1b7b9d54dc4' // playlist con mas de 100 canciones
 
-//var ids = [];
 var track = new Map();
 
 getData(input)
@@ -24,16 +23,13 @@ getData(input)
     // playlist
     getTracks(input)
       .then(data => (
-        //ids = [],
-        console.log(`Se registro una playlist con ${Object.keys(data).length} canciones.`),
+        console.log(`Se registro una playlist con ${Object.keys(data).length} canciones.`), // tambien se puede sacar con el tamaño del Map()
         loadTracks(data),
         console.log(track)
         // getPreview(id)
         //   .then(data => (
         //     showImages(ids)
         //   ))
-
-        //console.log(data)
       ))
   ) : (
     // other
@@ -44,9 +40,6 @@ getData(input)
 function loadTracks(data) {
   let i = 0
   while (data[i] !== undefined) {
-      //console.log(data[i].name)
-      //console.log(data[i].id)
-      //ids.push(data[i].id)
       track.set(
         i, {
           id: `${data[i].id}`,
