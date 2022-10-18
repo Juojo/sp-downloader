@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+const ffmpeg = require('fluent-ffmpeg');
+const fs = require('fs');
+
 const fetch = require('isomorphic-unfetch');
 const { getData, getPreview, getTracks, getDetails } = require('spotify-url-info')(fetch);
 
@@ -25,11 +28,12 @@ getData(input)
       .then(data => (
         console.log(`Se registro una playlist con ${Object.keys(data).length} canciones.`), // tambien se puede sacar con el tamaño del Map()
         loadTracks(data),
-        console.log(track)
-        // getPreview(id)
-        //   .then(data => (
-        //     showImages(ids)
-        //   ))
+        console.log(track),
+        getPreview(track.get(1).uri) // !
+          .then(data => (
+            //showImages(ids)
+            console.log(data)
+          ))
       ))
   ) : (
     // other
@@ -43,7 +47,8 @@ function loadTracks(data) {
       track.set(
         i, {
           id: `${data[i].id}`,
-          title: `${data[i].name}`
+          title: `${data[i].name}`,
+          uri: `${data[i].uri}`
         }
       )
       i++
@@ -54,6 +59,18 @@ function showImages(id) {
     
     
 }
+
+// function putCover() {
+//   const albumCover = 'cover.png';
+//   const path = 'example.mp3';
+//   const tempPath = 'example.temp.mp3';
+//   const strm = ffmpeg(path).addOutputOptions('-i', albumCover, '-map', '0:0', '-map', '1:0', '-c', 'copy', '-id3v2_version', '3').save(tempPath);
+//   strm.on('end', () => {
+//     fs.unlinkSync(path);
+//     fs.renameSync(tempPath, path);
+//     resolve();
+//   });
+// }
 
 // ! Importante: getDetails no puede leer playlists, solo tracks => se podria chequear primero el tipo y despues ver a que se llama (get)
 
