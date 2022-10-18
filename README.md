@@ -11,7 +11,7 @@ Spotify downloader (*sp-downloader*) is a simple command-line tool that can down
 ### What you need
 
 * FFMPEG installed on your pc.
-* This module globally installed (`$ npm i -g sp-downloader`)
+* This module globally installed (`npm i -g sp-downloader`)
 
 ### How it works
 
@@ -21,6 +21,6 @@ $ sp <link>
 ```
 **Example:**
 ```
-$ sp https://open.spotify.com/track/2hRlHXzOf14ArYmOPeAXsa?si=0905aef48cfd4256
+sp https://open.spotify.com/track/2hRlHXzOf14ArYmOPeAXsa?si=0905aef48cfd4256
 ```
 > Note: if you are trying to download a playlist it will automatically create a new folder with the name of the playlist and the tracks will be inside that folder.
