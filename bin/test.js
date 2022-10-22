@@ -10,7 +10,9 @@ const { getData, getPreview, getTracks, getDetails } = require('spotify-url-info
 //let input = 'https://open.spotify.com/track/2hRlHXzOf14ArYmOPeAXsa?si=d8dc9afda648413a' // cancion
 //let input = 'https://open.spotify.com/playlist/0bDw47MqOW1xKZ8Mdck10Y?si=6149c9a279c64b68' // playlist con 2 canciones
 
-let input = 'https://open.spotify.com/playlist/3qxSuTNp8RQ3QAnsQkMan4?si=e626a1b7b9d54dc4' // playlist con mas de 100 canciones
+let input = 'https://open.spotify.com/playlist/4HU18uNfI8U7SQHDk1zoWm?si=f884ec0db09846bd' // playlist con 17 canciones
+
+//let input = 'https://open.spotify.com/playlist/3qxSuTNp8RQ3QAnsQkMan4?si=e626a1b7b9d54dc4' // playlist con mas de 100 canciones
 
 var track = new Map();
 
@@ -25,15 +27,12 @@ getData(input)
   ) : data.type === 'playlist' ? (
     // playlist
     getTracks(input)
-      .then(data => (
+      .then(async data => (
         console.log(`Se registro una playlist con ${Object.keys(data).length} canciones.`), // tambien se puede sacar con el tamaño del Map()
-        loadTracks(data),
-        console.log(track),
-        getPreview(track.get(1).uri) // !
-          .then(data => (
-            //showImages(ids)
-            console.log(data)
-          ))
+        await loadTracks(data),
+        await loadImages(),
+        //,await loadImage()
+        console.log(track)
       ))
   ) : (
     // other
@@ -41,23 +40,33 @@ getData(input)
   ));
 
 // Carga las tracks de una playlist al Map: track
-function loadTracks(data) {
-  let i = 0
+async function loadTracks(data) {
+  let i = 0;
   while (data[i] !== undefined) {
-      track.set(
-        i, {
-          id: `${data[i].id}`,
-          title: `${data[i].name}`,
-          uri: `${data[i].uri}`
-        }
-      )
-      i++
+    track.set(
+      i, {
+        id: `${data[i].id}`,
+        title: `${data[i].name}`,
+        uri: `${data[i].uri}`
+      }
+    );
+    i++;
   }
 }
 
-function showImages(id) {
-    
-    
+async function loadImages() { // Tarda bastante, optimizar?
+  for (i=0; i<track.size; i++) {
+    await getPreview(track.get(i).uri)
+    .then(data => (
+      //console.log(`id: ${i} _ ${data.image}`),
+      track.set(
+        i, {
+          ...track.get(i),
+          img: `${data.image}`
+        }
+      )
+    ))
+  }
 }
 
 // function putCover() {
@@ -92,3 +101,19 @@ function showImages(id) {
 // Para GETPREVIEW
 // console.log(`Se registro una playlist con ${Object.keys(data).length} canciones.`),
 // showNames(data)
+
+
+// ? Basura:
+
+// async function loadImage(uri, i) {
+//   console.log(i);
+//   getPreview(uri)
+//     .then(async data => (
+//       track.set(
+//         i, {
+//           ...track.get(i.id),
+//           img: `${await data.image}`
+//         }
+//       )
+//     ))
+// }
