@@ -3,41 +3,58 @@
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 
+const argv = require('yargs').argv;
+
 const fetch = require('isomorphic-unfetch');
 const { getData, getPreview, getTracks, getDetails } = require('spotify-url-info')(fetch);
 
-//let input = 'https://open.spotify.com/artist/2qWK8K2Jfh67UqtwY8tCW6?si=7691551a752f477d' // artista
-//let input = 'https://open.spotify.com/track/2hRlHXzOf14ArYmOPeAXsa?si=d8dc9afda648413a' // cancion
-//let input = 'https://open.spotify.com/playlist/0bDw47MqOW1xKZ8Mdck10Y?si=6149c9a279c64b68' // playlist con 2 canciones
 
-let input = 'https://open.spotify.com/playlist/4HU18uNfI8U7SQHDk1zoWm?si=f884ec0db09846bd' // playlist con 17 canciones
-
-//let input = 'https://open.spotify.com/playlist/3qxSuTNp8RQ3QAnsQkMan4?si=e626a1b7b9d54dc4' // playlist con mas de 100 canciones
+function checkInput(input) {
+  if (typeof input !== 'string') {
+    console.log('El argumento ingresado es incorrecto, solo se pueden leer URL o URI. Ejemplo de URL: https://open.spotify.com/track/<id>');
+    return false;
+  }
+  else if (input.includes('https://open.spotify.com/playlist/') || input.includes('https://open.spotify.com/track/') || input.includes('https://open.spotify.com/artist/')) {
+    return true;
+  }
+  else {
+    console.log('El argumento ingresado es incorrecto, solo se pueden leer URL o URI. Ejemplo de URL: https://open.spotify.com/track/<id>');
+    return false;
+  } 
+}
 
 var track = new Map();
 
-getData(input)
-  .then(data => data.type === 'track' ? (
-    // track
-    getDetails(input)
-      .then(data => (
-        console.log(data.preview.image),
-        console.log(data.tracks[0].type)
-      ))
-  ) : data.type === 'playlist' ? (
-    // playlist
-    getTracks(input)
-      .then(async data => (
-        console.log(`Se registro una playlist con ${Object.keys(data).length} canciones.`), // tambien se puede sacar con el tamaño del Map()
-        await loadTracks(data),
-        await loadImages(),
-        //,await loadImage()
-        console.log(track)
-      ))
-  ) : (
-    // other
-    console.log('nada')
-  ));
+if (argv._[0] !== undefined) {
+  const input = argv._[0];
+
+  if (checkInput(input) === true) {
+    getData(input)
+      .then(data => data.type === 'track' ? (
+        // track
+        getDetails(input)
+          .then(data => (
+            console.log(data.preview.image),
+            console.log(data.tracks[0].type)
+          ))
+      ) : data.type === 'playlist' ? (
+        // playlist
+        getTracks(input)
+          .then(async data => (
+            console.log(`Se registro una playlist con ${Object.keys(data).length} canciones.`), // tambien se puede sacar con el tamaño del Map()
+            await loadTracks(data),
+            await loadImages(),
+            //,await loadImage()
+            console.log(track)
+          ))
+      ) : (
+        // other
+        console.log('nada')
+      ));
+  }
+} else {
+  console.log('No estas ingresando un argumento.');
+}
 
 // Carga las tracks de una playlist al Map: track
 async function loadTracks(data) {
@@ -68,6 +85,16 @@ async function loadImages() { // Tarda bastante, optimizar?
     ))
   }
 }
+
+
+//let input = 'https://open.spotify.com/artist/2qWK8K2Jfh67UqtwY8tCW6?si=7691551a752f477d' // artista
+//let input = 'https://open.spotify.com/track/2hRlHXzOf14ArYmOPeAXsa?si=d8dc9afda648413a' // cancion
+//let input = 'https://open.spotify.com/playlist/0bDw47MqOW1xKZ8Mdck10Y?si=6149c9a279c64b68' // playlist con 2 canciones
+
+//let input = 'https://open.spotify.com/playlist/4HU18uNfI8U7SQHDk1zoWm?si=f884ec0db09846bd' // playlist con 17 canciones
+
+//let input = 'https://open.spotify.com/playlist/3qxSuTNp8RQ3QAnsQkMan4?si=e626a1b7b9d54dc4' // playlist con mas de 100 canciones
+
 
 // function putCover() {
 //   const albumCover = 'cover.png';
