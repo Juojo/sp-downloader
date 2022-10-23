@@ -4,24 +4,8 @@ const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 
 const argv = require('yargs').argv;
-
 const fetch = require('isomorphic-unfetch');
 const { getData, getPreview, getTracks, getDetails } = require('spotify-url-info')(fetch);
-
-
-function checkInput(input) {
-  if (typeof input !== 'string') {
-    console.log('El argumento ingresado es incorrecto, solo se pueden leer URL o URI. Ejemplo de URL: https://open.spotify.com/track/<id>');
-    return false;
-  }
-  else if (input.includes('https://open.spotify.com/playlist/') || input.includes('https://open.spotify.com/track/') || input.includes('https://open.spotify.com/artist/')) {
-    return true;
-  }
-  else {
-    console.log('El argumento ingresado es incorrecto, solo se pueden leer URL o URI. Ejemplo de URL: https://open.spotify.com/track/<id>');
-    return false;
-  } 
-}
 
 var track = new Map();
 
@@ -54,6 +38,20 @@ if (argv._[0] !== undefined) {
   }
 } else {
   console.log('No estas ingresando un argumento.');
+}
+
+function checkInput(value) {
+  if (typeof value !== 'string') {
+    console.log('El argumento ingresado es incorrecto, solo se pueden leer URL o URI. Ejemplo de URL: https://open.spotify.com/track/<id>');
+    return false;
+  }
+  else if (value.includes('https://open.spotify.com/playlist/') || value.includes('https://open.spotify.com/track/') || value.includes('https://open.spotify.com/artist/')) {
+    return true;
+  }
+  else {
+    console.log('El argumento ingresado es incorrecto, solo se pueden leer URL o URI. Ejemplo de URL: https://open.spotify.com/track/<id>');
+    return false;
+  } 
 }
 
 // Carga las tracks de una playlist al Map: track
