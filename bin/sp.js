@@ -3,14 +3,21 @@
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 
-const argv = require('yargs').argv;
+const commander = require('commander');
+const ver = require('../lib/ver');
+
+commander
+  .option('-v, --version', 'show version', ver, '')
+  .option('-nc, --nocover', "it don't save the cover")
+  .parse(process.argv);
+
 const fetch = require('isomorphic-unfetch');
 const { getData, getPreview, getTracks, getDetails } = require('spotify-url-info')(fetch);
 
 var track = new Map();
 
-if (argv._[0] !== undefined) {
-  const input = argv._[0];
+if (commander.args[0] !== undefined) {
+  const input = commander.args[0];
 
   if (checkInput(input) === true) {
     getData(input)
@@ -36,6 +43,8 @@ if (argv._[0] !== undefined) {
         console.log('nada')
       ));
   }
+} else if (commander._optionValues.version === true) {
+  // Dejar vacio
 } else {
   console.log('No estas ingresando un argumento.');
 }
@@ -56,6 +65,7 @@ function checkInput(value) {
 
 // Carga las tracks de una playlist al Map: track
 async function loadTracks(data) {
+  console.log('Cargando canciones...');
   let i = 0;
   while (data[i] !== undefined) {
     track.set(
@@ -70,6 +80,12 @@ async function loadTracks(data) {
 }
 
 async function loadImages() { // Tarda bastante, optimizar?
+  if (commander._optionValues.nocover === true) {
+    console.log("no se cargan imagenes");
+    return;
+  }
+  
+  console.log('Cargando covers... (esto puede tardar un rato)');
   for (i=0; i<track.size; i++) {
     await getPreview(track.get(i).uri)
     .then(data => (

@@ -27,9 +27,9 @@
   },
   "homepage": "https://github.com/Juojo/sp-downloader#readme",
   "dependencies": {
+    "commander": "^9.4.1",
     "fluent-ffmpeg": "^2.1.2",
     "isomorphic-unfetch": "^3.1.0",
-    "spotify-url-info": "^3.1.9",
-    "yargs": "^17.6.0"
+    "spotify-url-info": "^3.1.9"
   }
 }
