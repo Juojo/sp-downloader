@@ -8,7 +8,7 @@ const ver = require('../lib/ver');
 
 commander
   .option('-v, --version', 'show version', ver, '')
-  .option('-nc, --nocover', "it don't save the cover")
+  .option('-nc, --nocover', "it will not save the cover")
   .parse(process.argv);
 
 const fetch = require('isomorphic-unfetch');
@@ -25,14 +25,18 @@ if (commander.args[0] !== undefined) {
         // track
         getDetails(input)
           .then(data => (
+            //console.log(data),
             console.log(data.preview.image),
-            console.log(data.tracks[0].type)
+            console.log(data.tracks[0].uri),
+            console.log(data.preview.title),
+            console.log(data.preview.artist)
           ))
       ) : data.type === 'playlist' ? (
         // playlist
         getTracks(input)
           .then(async data => (
             console.log(`Se registro una playlist con ${Object.keys(data).length} canciones.`), // tambien se puede sacar con el tamaño del Map()
+            //console.log(data),
             await loadTracks(data),
             await loadImages(),
             //,await loadImage()
@@ -70,9 +74,8 @@ async function loadTracks(data) {
   while (data[i] !== undefined) {
     track.set(
       i, {
-        id: `${data[i].id}`,
-        title: `${data[i].name}`,
-        uri: `${data[i].uri}`
+        uri: `${data[i].uri}`,
+        title: `${data[i].name}`
       }
     );
     i++;
@@ -81,7 +84,7 @@ async function loadTracks(data) {
 
 async function loadImages() { // Tarda bastante, optimizar?
   if (commander._optionValues.nocover === true) {
-    console.log("no se cargan imagenes");
+    console.log("no se cargan covers");
     return;
   }
   
