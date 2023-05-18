@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "sp": "bin/sp.js",
-    "commander-test": "bin/commander-test.js",
-    "api": "bin/api-test.js"
+    "sp": "src/commands/sp.js",
+    "commander-test": "src/commands/commander-test.js",
+    "api": "src/commands/api-test.js"
   },
   "repository": {
     "type": "git",

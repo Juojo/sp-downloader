@@ -6,9 +6,9 @@ const fs = require('fs');
 const commander = require('commander');
 const ver = require('../lib/ver');
 
-const downloadTrack = require('./downloader.js')
-const loadMetadata = require('./metadata.js')
-const loadCover = require('./cover.js')
+const downloadTrack = require('../bin/downloader.js')
+const loadMetadata = require('../bin/metadata.js')
+const loadCover = require('../bin/cover.js')
 
 commander
   .option('-v, --version', 'show version', ver, '')
@@ -23,7 +23,7 @@ var track = new Map();
 if (commander.args[0] !== undefined) {
   const input = commander.args[0];
 
-  if (checkInput(input) === true) {
+  if (checkInput(input)) {
     getData(input)
       .then(data => data.type === 'track' ? (
         // track
