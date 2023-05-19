@@ -4,10 +4,23 @@ var ffmetadata = require("ffmetadata");
 
 const fs = require('fs');;
 
+const restrictedCharacters = ["#", "%", "&", "{", "}", "/", "<", ">", "*", "?", "$", "!", "'", `"`, ":", ";", ".", ",", "@", "+", "`", "|", "="];
+
 module.exports = async function(data) {
-    fs.writeFile(`./test_files/${data.preview.title}.mp3`, '', function (err) {
+    let title = data.preview.title
+    console.log(title);
+
+    for (i=0; i<restrictedCharacters.length; i++) {
+        if (title.includes(restrictedCharacters[i])) {
+            title = title.replaceAll(restrictedCharacters[i], "");
+        }
+    }
+    title = title.replace(/ /g, "_");
+    console.log(title);
+
+    fs.writeFile(`./test_files/${title}.mp3`, '', function (err) {
         if (err) throw err;
-        console.log('File is created successfully.');
+        console.log('File was created successfully.');
     });
 }
 

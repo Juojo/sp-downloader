@@ -29,13 +29,13 @@ if (commander.args[0] !== undefined) {
         // track
         getDetails(input)
           .then(async data => (
-            await downloadTrack(data),
-            await loadMetadata(data),
+            await downloadTrack(data)
+            //await loadMetadata(data),
             //await loadCover(data),
             // console.log(data.preview.image),
             // console.log(data.tracks[0].uri),
             // console.log(data.preview.title),
-            console.log(data.preview.artist)
+            //console.log(data.preview.artist)
           ))
       ) : data.type === 'playlist' ? (
         // playlist
