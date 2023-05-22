@@ -1,21 +1,32 @@
-const ffmpeg = require('fluent-ffmpeg');
+//const ffmpeg = require('fluent-ffmpeg');
 
-const fs = require('fs');;
+const fs = require('fs');
+const ytdl = require('ytdl-core');
+const getFileName = require('./getFileName');
 
-const restrictedCharacters = ["#", "%", "&", "{", "}", "/", "<", ">", "*", "?", "$", "!", "'", `"`, ":", ";", ".", ",", "@", "+", "`", "|", "="];
+module.exports = async function(data, videoId) {
+    const fileName = await getFileName(data.preview.title);
 
-module.exports = async function(data) {
-    let title = data.preview.title
-    console.log(title);
+    await ytStream(videoId, fileName);    
+}
 
-    for (i=0; i<restrictedCharacters.length; i++) {
-        if (title.includes(restrictedCharacters[i])) {
-            title = title.replaceAll(restrictedCharacters[i], "");
+async function ytStream(videoId, title) {
+    if (ytdl.validateID(videoId)) {
+        try {
+            console.log('Audio stream is in progress...');
+            ytdl(`http://www.youtube.com/watch?v=${videoId}`, { filter: 'audioonly' })
+                .pipe(fs.createWriteStream(`./test_files/${title}.mp3`));
+            console.log('Audio stream completed');
+        } catch (err) {
+            console.log(err);
         }
+    } else {
+        console.log('YouTube video ID is not correct');
     }
-    title = title.replace(/ /g, "_");
-    console.log(title);
+    
+}
 
+async function createFIle(title) {
     fs.writeFile(`./test_files/${title}.mp3`, '', function (err) {
         if (err) throw err;
         console.log('File was created successfully.');

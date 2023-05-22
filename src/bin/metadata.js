@@ -1,10 +1,12 @@
-const ffmpeg = require('fluent-ffmpeg');
+//const ffmpeg = require('fluent-ffmpeg');
 
 var ffmetadata = require("ffmetadata");
 
-const fs = require('fs');
+//const fs = require('fs');
+const getFileName = require('./getFileName');
 
 module.exports = async function(data) {
+    const fileName = await getFileName(data.preview.title);
     // var artistString = data.preview.artist;
     // var separators = [',', '&'];
     // var artistArray = artistString.split(new RegExp(separators.join('|'), 'g')).map(function(item) {
@@ -20,7 +22,7 @@ module.exports = async function(data) {
     };
   
     // ! Si el archivo al que se esta apuntando no tiene contenido devuelve error: "Format mp3 detected only with low score of 1, misdetection possible!"
-    ffmetadata.write(`./test_files/prueba.mp3`, metadata, function(err) {
+    ffmetadata.write(`./test_files/${fileName}.mp3`, metadata, function(err) {
         if (err) console.error("Error writing metadata", err);
         else console.log("metadata written");
     });

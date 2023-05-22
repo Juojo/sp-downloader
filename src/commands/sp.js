@@ -30,9 +30,8 @@ if (commander.args[0] !== undefined) {
         // track
         getDetails(input)
           .then(async data => (
-            await ytSearch(data)
-            //await downloadTrack(data),
-            //await loadMetadata(data)
+            await downloadTrack(data, await ytSearch(data)),
+            await loadMetadata(data)
             //await loadCover(data)
             
             // console.log(data.preview.image),
