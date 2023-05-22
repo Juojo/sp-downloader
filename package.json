@@ -33,6 +33,9 @@
     "ffmetadata": "^1.7.0",
     "fluent-ffmpeg": "^2.1.2",
     "isomorphic-unfetch": "^3.1.0",
-    "spotify-url-info": "^3.2.3"
+    "spotify-url-info": "^3.2.3",
+    "usetube": "^2.2.7",
+    "youtube-search-api": "^1.1.1",
+    "ytdl-core": "^4.11.4"
   }
 }

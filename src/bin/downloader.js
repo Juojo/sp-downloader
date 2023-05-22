@@ -1,7 +1,5 @@
 const ffmpeg = require('fluent-ffmpeg');
 
-var ffmetadata = require("ffmetadata");
-
 const fs = require('fs');;
 
 const restrictedCharacters = ["#", "%", "&", "{", "}", "/", "<", ">", "*", "?", "$", "!", "'", `"`, ":", ";", ".", ",", "@", "+", "`", "|", "="];

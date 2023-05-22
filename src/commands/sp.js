@@ -6,9 +6,10 @@ const fs = require('fs');
 const commander = require('commander');
 const ver = require('../lib/ver');
 
-const downloadTrack = require('../bin/downloader.js')
-const loadMetadata = require('../bin/metadata.js')
-const loadCover = require('../bin/cover.js')
+const downloadTrack = require('../bin/downloader.js');
+const loadMetadata = require('../bin/metadata.js');
+const loadCover = require('../bin/cover.js');
+const ytSearch = require('../bin/ytSearch.js');
 
 commander
   .option('-v, --version', 'show version', ver, '')
@@ -29,9 +30,11 @@ if (commander.args[0] !== undefined) {
         // track
         getDetails(input)
           .then(async data => (
-            await downloadTrack(data),
-            await loadMetadata(data)
+            await ytSearch(data)
+            //await downloadTrack(data),
+            //await loadMetadata(data)
             //await loadCover(data)
+            
             // console.log(data.preview.image),
             // console.log(data.tracks[0].uri),
             // console.log(data.preview.title),
