@@ -9,7 +9,6 @@ const ver = require('../lib/ver');
 const downloadTrack = require('../bin/downloader.js');
 const loadMetadata = require('../bin/metadata.js');
 const loadCover = require('../bin/cover.js');
-const ytSearch = require('../bin/ytSearch.js');
 
 commander
   .option('-v, --version', 'show version', ver, '')
@@ -23,6 +22,8 @@ var track = new Map();
 
 if (commander.args[0] !== undefined) {
   const input = commander.args[0];
+  const playlistName = validatePlaylistName();
+  console.log(playlistName);
 
   if (checkInput(input)) {
     getData(input)
@@ -30,8 +31,14 @@ if (commander.args[0] !== undefined) {
         // track
         getDetails(input)
           .then(async data => (
-            await downloadTrack(data, await ytSearch(data)),
-            await loadMetadata(data)
+            track.set(
+              0, {
+                title: data.preview.title,
+                artist: data.preview.artist
+              }
+            ),
+            await downloadTrack(track, '')
+            //await loadMetadata(data)
             //await loadCover(data)
             
             // console.log(data.preview.image),
@@ -47,7 +54,7 @@ if (commander.args[0] !== undefined) {
             //console.log(data),
             await loadTracks(data),
             await loadImages(),
-            //,await loadImage()
+            await downloadTrack(track, playlistName),
             console.log(track)
           ))
       ) : (
@@ -75,6 +82,14 @@ function checkInput(value) {
   } 
 }
 
+async function validatePlaylistName() {
+  if (commander.args[1] === undefined) {
+    console.log('Ingrese un nombre para la playlist luego del link de spotify');
+  } else {
+    return false
+  }
+}
+
 // Carga las tracks de una playlist al Map: track
 async function loadTracks(data) {
   console.log('Cargando canciones...');
@@ -83,7 +98,8 @@ async function loadTracks(data) {
     track.set(
       i, {
         uri: `${data[i].uri}`,
-        title: `${data[i].name}`
+        title: `${data[i].name}`,
+        artist: `${data[i].artist}`
       }
     );
     i++;
